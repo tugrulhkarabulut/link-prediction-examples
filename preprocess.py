@@ -7,10 +7,15 @@ import dgl
 def load_dataset():
     dataset = dgl.data.CoraGraphDataset()
     g = dataset[0]
-    train_g, train_pos_g, train_neg_g, test_pos_g, test_neg_g = train_test_split(
-        g, test_size=0.1
-    )
-    return train_g, train_pos_g, train_neg_g, test_pos_g, test_neg_g
+    (
+        test_g,
+        train_g,
+        train_pos_g,
+        train_neg_g,
+        test_pos_g,
+        test_neg_g,
+    ) = train_test_split(g, test_size=0.1)
+    return test_g, train_g, train_pos_g, train_neg_g, test_pos_g, test_neg_g
 
 
 def train_test_split(g, test_size=0.1):
@@ -31,6 +36,7 @@ def train_test_split(g, test_size=0.1):
     train_neg_u, train_neg_v = neg_u[neg_eids[test_size:]], neg_v[neg_eids[test_size:]]
 
     train_g = dgl.remove_edges(g, eids[:test_size])
+    test_g = g.edge_subgraph(eids[:test_size])
 
     train_pos_g = dgl.graph((train_pos_u, train_pos_v), num_nodes=g.number_of_nodes())
     train_neg_g = dgl.graph((train_neg_u, train_neg_v), num_nodes=g.number_of_nodes())
@@ -38,4 +44,4 @@ def train_test_split(g, test_size=0.1):
     test_pos_g = dgl.graph((test_pos_u, test_pos_v), num_nodes=g.number_of_nodes())
     test_neg_g = dgl.graph((test_neg_u, test_neg_v), num_nodes=g.number_of_nodes())
 
-    return train_g, train_pos_g, train_neg_g, test_pos_g, test_neg_g
+    return test_g, train_g, train_pos_g, train_neg_g, test_pos_g, test_neg_g

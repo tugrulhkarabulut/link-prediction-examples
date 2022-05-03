@@ -7,6 +7,7 @@ Here are the models that are included in this repo:
 | Model Name | Description   |
 |--|-----|
 | GraphSAGE | Learns node representations by aggregating node neighborhood features |
+| StochasticGraphSAGE | Stochastic version of GraphSAGE. Uses DGL's DataLoader and NeighborSampler APIs. batch-size, n-neighbors and negative-samples parameters are available for this model. |
 |  VGAE  | Variational Graph Auto-Encoder. Only difference from standard VAE is that it uses GraphConv layer instead of a Linear layer.  |
 |   ResidualMLPVGAEReduceSum  |  Jointly learns both graph-wise (with VGAE) and attribute-wise features and aggregates them with summation  |
 |   ResidualMLPVGAEReduceFF  |  Jointly learns both graph-wise (with VGAE) and attribute-wise features and aggregates them with a feed-forward layer  |
